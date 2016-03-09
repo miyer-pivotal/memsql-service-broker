@@ -1,0 +1,31 @@
+---
+name: memsql
+icon_file: resources/memsql.png
+label: MemSQL
+description: The world's fastest in-memory database
+
+apply_open_security_group: true
+
+packages:
+- name: memsql-quickstart
+  type: docker-bosh
+  docker_images:
+  - memsql/quickstart
+  cpu: 4
+  memory: 16384
+  ephemeral_disk: 4096
+  persistent_disk: 32768
+  instances: 1
+  manifest:
+    containers:
+    - name: memsql
+      image: memsql/quickstart
+      bind_ports:
+      - '9000:9000'
+      - '3306:3306'
+      bind_volumes:
+      - '/memsql'
+
+stemcell_criteria:
+  os: ubuntu-trusty
+  version: '3146.6'
