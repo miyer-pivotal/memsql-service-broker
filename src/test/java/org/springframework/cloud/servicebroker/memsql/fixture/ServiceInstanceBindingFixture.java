@@ -1,6 +1,6 @@
-package org.springframework.cloud.servicebroker.mongodb.fixture;
+package org.springframework.cloud.servicebroker.memsql.fixture;
 
-import org.springframework.cloud.servicebroker.mongodb.model.ServiceInstanceBinding;
+import org.springframework.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
 
 import java.util.Collections;
 import java.util.Map;

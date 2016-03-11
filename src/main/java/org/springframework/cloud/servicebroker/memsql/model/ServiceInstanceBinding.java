@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.mongodb.model;
+package org.springframework.cloud.servicebroker.memsql.model;
 
 import java.util.HashMap;
 import java.util.Map;

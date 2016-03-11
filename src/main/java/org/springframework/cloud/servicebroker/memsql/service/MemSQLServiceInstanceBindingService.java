@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.mongodb.service;
+package org.springframework.cloud.servicebroker.memsql.service;
 
 import java.util.Collections;
 import java.util.Map;
@@ -9,8 +9,8 @@ import org.springframework.cloud.servicebroker.model.CreateServiceInstanceAppBin
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingRequest;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingResponse;
 import org.springframework.cloud.servicebroker.model.DeleteServiceInstanceBindingRequest;
-import org.springframework.cloud.servicebroker.mongodb.model.ServiceInstanceBinding;
-import org.springframework.cloud.servicebroker.mongodb.repository.MemSQLServiceInstanceBindingRepository;
+import org.springframework.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
+import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceBindingRepository;
 import org.springframework.cloud.servicebroker.service.ServiceInstanceBindingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 /**
  * Mongo impl to bind services.  Binding a service does the following:
  * creates a new user in the database (currently uses a default pwd of "password"),
- * saves the ServiceInstanceBinding info to the Mongo repository.
+ * saves the ServiceInstanceBinding info to the Mongo repository - TBD save to Redis or MySQL instead
  */
 @Service
 public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindingService {
@@ -52,7 +52,7 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 		
 		// TODO check if user already exists in the DB
 
-		mongo.createUser(database, username, password);
+		/*mongo.createUser(database, username, password);
 		
 		Map<String, Object> credentials =
 				Collections.singletonMap("uri", (Object) mongo.getConnectionString(database, username, password));
@@ -60,7 +60,9 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 		binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
 		bindingRepository.save(binding);
 		
-		return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);
+		return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);*/
+
+		return null;
 	}
 
 	@Override
@@ -72,8 +74,8 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			throw new ServiceInstanceBindingDoesNotExistException(bindingId);
 		}
 
-		mongo.deleteUser(binding.getServiceInstanceId(), bindingId);
-		bindingRepository.delete(bindingId);
+		/*mongo.deleteUser(binding.getServiceInstanceId(), bindingId);
+		bindingRepository.delete(bindingId);*/
 	}
 
 	protected ServiceInstanceBinding getServiceInstanceBinding(String id) {

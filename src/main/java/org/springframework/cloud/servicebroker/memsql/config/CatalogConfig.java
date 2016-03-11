@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.mongodb.config;
+package org.springframework.cloud.servicebroker.memsql.config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,7 +28,7 @@ public class CatalogConfig {
 								new Plan("memsql-plan",
 										"Default MemSQL Plan",
 										"This is a default memsql plan.  All services are created equally.",
-										getPlanMetadata())),
+										getPlanMetadata(),true)),
 						Arrays.asList("memsql", "document"),
 						getServiceDefinitionMetadata(),
 						null,
@@ -43,8 +43,8 @@ public class CatalogConfig {
 		sdMetadata.put("imageUrl", "https://upload.wikimedia.org/wikipedia/commons/4/43/MemSQL_Logo.png");
 		sdMetadata.put("longDescription", "MemSQL Service");
 		sdMetadata.put("providerDisplayName", "Pivotal");
-		sdMetadata.put("documentationUrl", "https://github.com/spring-cloud-samples/cloudfoundry-mongodb-service-broker");
-		sdMetadata.put("supportUrl", "https://github.com/spring-cloud-samples/cloudfoundry-mongodb-service-broker");
+		sdMetadata.put("documentationUrl", "https://github.com/spring-cloud-samples/cloudfoundry-memsql-service-broker");
+		sdMetadata.put("supportUrl", "https://github.com/spring-cloud-samples/cloudfoundry-memsql-service-broker");
 		return sdMetadata;
 	}
 	

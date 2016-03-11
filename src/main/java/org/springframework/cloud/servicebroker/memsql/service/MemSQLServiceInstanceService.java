@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.mongodb.service;
+package org.springframework.cloud.servicebroker.memsql.service;
 
 import org.springframework.cloud.servicebroker.exception.ServiceBrokerException;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceDoesNotExistException;
@@ -12,9 +12,9 @@ import org.springframework.cloud.servicebroker.model.GetLastServiceOperationResp
 import org.springframework.cloud.servicebroker.model.OperationState;
 import org.springframework.cloud.servicebroker.model.UpdateServiceInstanceRequest;
 import org.springframework.cloud.servicebroker.model.UpdateServiceInstanceResponse;
-import org.springframework.cloud.servicebroker.mongodb.exception.MemSQLServiceException;
-import org.springframework.cloud.servicebroker.mongodb.repository.MemSQLServiceInstanceRepository;
-import org.springframework.cloud.servicebroker.mongodb.model.ServiceInstance;
+import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
+import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceRepository;
+import org.springframework.cloud.servicebroker.memsql.model.ServiceInstance;
 import org.springframework.cloud.servicebroker.service.ServiceInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,22 +22,20 @@ import org.springframework.stereotype.Service;
 import com.mongodb.DB;
 
 /**
- * Mongo impl to manage service instances.  Creating a service does the following:
+ * MemSQL impl to manage service instances.  Creating a service does the following:
  * creates a new database,
- * saves the ServiceInstance info to the Mongo repository.
- *  
- * @author sgreenberg@pivotal.io
+ * saves the ServiceInstance info to the MySQL repository.
  */
 @Service
 public class MemSQLServiceInstanceService implements ServiceInstanceService {
 
-	private MemSQLAdminService mongo;
+	private MemSQLAdminService memsql;
 	
 	private MemSQLServiceInstanceRepository repository;
 	
 	@Autowired
-	public MemSQLServiceInstanceService(MemSQLAdminService mongo, MemSQLServiceInstanceRepository repository) {
-		this.mongo = mongo;
+	public MemSQLServiceInstanceService(MemSQLAdminService memsql, MemSQLServiceInstanceRepository repository) {
+		this.memsql = memsql;
 		this.repository = repository;
 	}
 	
@@ -51,18 +49,19 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 
 		instance = new ServiceInstance(request);
 
-		if (mongo.databaseExists(instance.getServiceInstanceId())) {
+		if (memsql.databaseExists(instance.getServiceInstanceId())) {
 			// ensure the instance is empty
-			mongo.deleteDatabase(instance.getServiceInstanceId());
+			memsql.deleteDatabase(instance.getServiceInstanceId());
 		}
 
-		DB db = mongo.createDatabase(instance.getServiceInstanceId());
+		/*DB db = memsql.createDatabase(instance.getServiceInstanceId());
 		if (db == null) {
 			throw new ServiceBrokerException("Failed to create new DB instance: " + instance.getServiceInstanceId());
 		}
 		repository.save(instance);
 
-		return new CreateServiceInstanceResponse();
+		return new CreateServiceInstanceResponse();*/
+		return null;
 	}
 
 	@Override
@@ -82,7 +81,7 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 			throw new ServiceInstanceDoesNotExistException(instanceId);
 		}
 
-		mongo.deleteDatabase(instanceId);
+		memsql.deleteDatabase(instanceId);
 		repository.delete(instanceId);
 		return new DeleteServiceInstanceResponse();
 	}

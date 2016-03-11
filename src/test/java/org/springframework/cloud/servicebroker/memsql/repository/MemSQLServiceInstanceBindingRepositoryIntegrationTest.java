@@ -1,9 +1,9 @@
-package org.springframework.cloud.servicebroker.mongodb.repository;
+package org.springframework.cloud.servicebroker.memsql.repository;
 
 import static org.junit.Assert.assertEquals;
 
-import org.springframework.cloud.servicebroker.mongodb.IntegrationTestBase;
-import org.springframework.cloud.servicebroker.mongodb.fixture.ServiceInstanceBindingFixture;
+import org.springframework.cloud.servicebroker.memsql.IntegrationTestBase;
+import org.springframework.cloud.servicebroker.memsql.fixture.ServiceInstanceBindingFixture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

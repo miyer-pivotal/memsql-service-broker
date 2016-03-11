@@ -1,13 +1,13 @@
-package org.springframework.cloud.servicebroker.mongodb.repository;
+package org.springframework.cloud.servicebroker.memsql.repository;
 
 import com.mongodb.MongoClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.servicebroker.mongodb.IntegrationTestBase;
-import org.springframework.cloud.servicebroker.mongodb.fixture.ServiceInstanceFixture;
-import org.springframework.cloud.servicebroker.mongodb.model.ServiceInstance;
+import org.springframework.cloud.servicebroker.memsql.IntegrationTestBase;
+import org.springframework.cloud.servicebroker.memsql.fixture.ServiceInstanceFixture;
+import org.springframework.cloud.servicebroker.memsql.model.ServiceInstance;
 import org.springframework.data.mongodb.core.MongoOperations;
 
 import static org.junit.Assert.assertEquals;
