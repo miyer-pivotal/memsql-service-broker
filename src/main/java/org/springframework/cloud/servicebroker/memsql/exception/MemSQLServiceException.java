@@ -4,9 +4,7 @@ import org.springframework.cloud.servicebroker.exception.ServiceBrokerException;
 
 
 /**
- * Exception thrown when issues with the underlying mongo service occur.
- * NOTE: com.memsql.MongoException is a runtime exception and therefore we
- * want to have to handle the issue.
+ * Exception thrown when issues with the underlying memsql service occur.
  *
  */
 public class MemSQLServiceException extends ServiceBrokerException {

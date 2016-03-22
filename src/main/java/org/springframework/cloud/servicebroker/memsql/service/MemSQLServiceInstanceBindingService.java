@@ -79,8 +79,9 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			throw new ServiceInstanceBindingDoesNotExistException(bindingId);
 		}
 
-		/*mongo.deleteUser(binding.getServiceInstanceId(), bindingId);
-		bindingRepository.delete(bindingId);*/
+		memsql.deleteUser(binding.getServiceInstanceId(), bindingId);
+		bindingRepository.delete(bindingId);
+
 	}
 
 	protected ServiceInstanceBinding getServiceInstanceBinding(String id) {
