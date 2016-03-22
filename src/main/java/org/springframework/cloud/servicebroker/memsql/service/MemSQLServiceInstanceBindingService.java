@@ -16,8 +16,8 @@ import java.sql.SQLException;
 
 /**
 * MemSQL impl to bind services.  Binding a service does the following:
- * creates a new user in the database (currently uses a default pwd of "password"),
- * saves the ServiceInstanceBinding info to the Mongo repository - TBD save to Redis or MySQL instead
+ * creates a new user in the database - autogenerates the password,
+ * saves the ServiceInstanceBinding info to the MemSQL repository
  */
 @Service
 public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindingService {
@@ -46,7 +46,6 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 
 		String database = serviceInstanceId;
 		String username = bindingId;
-		//String password = "password";
 
 		/*
 			random password generator
@@ -54,10 +53,7 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 		PasswordGenerator msr = new PasswordGenerator();
 		String password = msr.generateRandomString();
 
-		//PasswordGenerator passgen = new PasswordGenerator();
-		//String password = passgen.generatePassword();
 
-		
 		// check if user already exists in the DB
 
 		boolean userExists = memsql.userExists(username);

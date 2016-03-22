@@ -1,18 +1,11 @@
-
-
-
 package org.springframework.cloud.servicebroker.memsql.service;
 
-
-
-import com.mongodb.ServerAddress;
 import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
 import java.sql.*;
 
 /**
@@ -135,34 +128,7 @@ public class MemSQLAdminService {
 		}
 
 	}
-/*
-	public String getConnectionString(String database, String username, String password) {
-		return new StringBuilder()
-				.append("memsql://")
-				.append(username)
-				.append(":")
-				.append(password)
-				.append("@")
-				.append(getServerAddresses())
-				.append("/")
-				.append(database)
-				.toString();
-	}
-	
-	public String getServerAddresses() {
-		StringBuilder builder = new StringBuilder();
-		for (ServerAddress address : client.getAllAddress()) {
-			builder.append(address.getHost())
-					.append(":")
-					.append(address.getPort())
-					.append(",");
-		}
-		if (builder.length() > 0) {
-			builder.deleteCharAt(builder.length()-1);
-		}
-		return builder.toString();
-	}
-*/
+
 	private MemSQLServiceException handleException(Exception e) {
 		logger.warn(e.getLocalizedMessage(), e);
 		return new MemSQLServiceException(e.getLocalizedMessage());

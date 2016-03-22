@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="cloudfoundry-service-broker" />
+        <module name="memsql-service-broker" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="cloudfoundry-service-broker" target="1.7" />
+      <module name="memsql-service-broker" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

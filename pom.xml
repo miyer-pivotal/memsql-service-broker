@@ -20,7 +20,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 		<springCloudServiceBrokerVersion>1.0.0.BUILD-SNAPSHOT</springCloudServiceBrokerVersion>
 	</properties>
 
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.0.8</version>
+			<version>5.1.38</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

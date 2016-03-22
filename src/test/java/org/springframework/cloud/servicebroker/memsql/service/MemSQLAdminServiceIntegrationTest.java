@@ -1,18 +1,11 @@
 package org.springframework.cloud.servicebroker.memsql.service;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.CommandResult;
-import com.mongodb.DB;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.servicebroker.memsql.IntegrationTestBase;
 import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
 import org.springframework.test.annotation.DirtiesContext;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
