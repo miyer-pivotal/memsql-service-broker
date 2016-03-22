@@ -1,30 +1,34 @@
+
+
 package org.springframework.cloud.servicebroker.memsql.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import com.mongodb.MongoClient;
-import com.mongodb.ServerAddress;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceRepository;
 import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
+import org.springframework.cloud.servicebroker.memsql.lib.PasswordGenerator;
+import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceRepository;
+import org.springframework.cloud.servicebroker.memsql.service.MemSQLAdminService;
+import org.springframework.cloud.servicebroker.memsql.service.MemSQLClient;
+import org.springframework.cloud.servicebroker.memsql.service.MemSQLServiceInstanceService;
 import org.springframework.cloud.servicebroker.model.ServiceDefinition;
+
+import java.sql.SQLException;
+
 
 public class MemSQLAdminServiceUnitTest {
 
-	private static final String DB_NAME = "testDB1";
-	private static final String MEMSQL_USER_NAME = "mallika";
-	public static final String MEMSQL_PASSWORD = "testPassword";
+	private static final String DB_NAME = "testDatabase1";
+	private static final String MEMSQL_USER_NAME = "mallikaiyer1";
+
+	PasswordGenerator pgen = new PasswordGenerator();
+
+	public final String MEMSQL_PASSWORD = pgen.generateRandomString();
+
+
 
 	@Autowired
 	private MemSQLClient client = new MemSQLClient("jdbc:mysql://52.87.166.40:3306", "root", "relevant-grizzled-fireboat");
@@ -52,6 +56,7 @@ public class MemSQLAdminServiceUnitTest {
 		memsql.createDatabase(DB_NAME);
 		Assert.assertTrue(memsql.databaseExists(DB_NAME));
 	}
+
 
 	@Test
 	public void deleteDatabaseSuccessfully() {

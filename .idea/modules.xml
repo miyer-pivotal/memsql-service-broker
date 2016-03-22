@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/cloudfoundry-service-broker.iml" filepath="$PROJECT_DIR$/cloudfoundry-service-broker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/memsql-service-broker.iml" filepath="$PROJECT_DIR$/memsql-service-broker.iml" />
     </modules>
   </component>
 </project>

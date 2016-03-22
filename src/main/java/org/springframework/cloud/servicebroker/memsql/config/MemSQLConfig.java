@@ -1,16 +1,12 @@
 package org.springframework.cloud.servicebroker.memsql.config;
 
-import java.net.UnknownHostException;
-
-import com.mongodb.ServerAddress;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.servicebroker.memsql.service.MemSQLClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.cloud.servicebroker.memsql.service.MemSQLClient;
 
-
-import com.mongodb.MongoClient;
+import java.net.UnknownHostException;
 
 // change this to use the MySQL API - invoke a jdbc call instead of using the Mongo API
 
@@ -33,9 +29,6 @@ public class MemSQLConfig {
 		return new MemSQLClient(url, username, password);
 
 	}
-/*	public MongoClient mongoClient() throws UnknownHostException {
-		return new MongoClient(new ServerAddress(host, port));
-	}
-*/
+
 
 }

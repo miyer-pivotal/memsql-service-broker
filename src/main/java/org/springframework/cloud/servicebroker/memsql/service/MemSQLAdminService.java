@@ -3,8 +3,9 @@
 
 package org.springframework.cloud.servicebroker.memsql.service;
 
-import com.mongodb.DB;
-import com.sun.corba.se.impl.orb.DataCollectorBase;
+
+
+import com.mongodb.ServerAddress;
 import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,7 +135,7 @@ public class MemSQLAdminService {
 		}
 
 	}
-	/*
+/*
 	public String getConnectionString(String database, String username, String password) {
 		return new StringBuilder()
 				.append("memsql://")

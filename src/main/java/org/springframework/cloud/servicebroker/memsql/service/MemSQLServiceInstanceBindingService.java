@@ -1,36 +1,35 @@
 package org.springframework.cloud.servicebroker.memsql.service;
 
-import java.util.Collections;
-import java.util.Map;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceBindingDoesNotExistException;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceBindingExistsException;
-import org.springframework.cloud.servicebroker.model.CreateServiceInstanceAppBindingResponse;
+import org.springframework.cloud.servicebroker.memsql.lib.PasswordGenerator;
+import org.springframework.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
+import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceBindingRepository;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingRequest;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingResponse;
 import org.springframework.cloud.servicebroker.model.DeleteServiceInstanceBindingRequest;
-import org.springframework.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
-import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceBindingRepository;
 import org.springframework.cloud.servicebroker.service.ServiceInstanceBindingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+
 /**
- * Mongo impl to bind services.  Binding a service does the following:
+* MemSQL impl to bind services.  Binding a service does the following:
  * creates a new user in the database (currently uses a default pwd of "password"),
  * saves the ServiceInstanceBinding info to the Mongo repository - TBD save to Redis or MySQL instead
  */
 @Service
 public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindingService {
 
-	private MemSQLAdminService mongo;
+	private MemSQLAdminService memsql;
 
 	private MemSQLServiceInstanceBindingRepository bindingRepository;
 
 	@Autowired
-	public MemSQLServiceInstanceBindingService(MemSQLAdminService mongo,
+	public MemSQLServiceInstanceBindingService(MemSQLAdminService memsql,
 											   MemSQLServiceInstanceBindingRepository bindingRepository) {
-		this.mongo = mongo;
+		this.memsql = memsql;
 		this.bindingRepository = bindingRepository;
 	}
 	
@@ -47,20 +46,30 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 
 		String database = serviceInstanceId;
 		String username = bindingId;
-		// TODO Password Generator
-		String password = "password";
-		
-		// TODO check if user already exists in the DB
+		//String password = "password";
 
-		/*mongo.createUser(database, username, password);
-		
-		Map<String, Object> credentials =
-				Collections.singletonMap("uri", (Object) mongo.getConnectionString(database, username, password));
+		/*
+			random password generator
+		 */
+		PasswordGenerator msr = new PasswordGenerator();
+		String password = msr.generateRandomString();
 
-		binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
-		bindingRepository.save(binding);
+		//PasswordGenerator passgen = new PasswordGenerator();
+		//String password = passgen.generatePassword();
+
 		
-		return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);*/
+		// check if user already exists in the DB
+
+		boolean userExists = memsql.userExists(username);
+		if(userExists){
+			System.out.println("User already exists. A duplicate user cannot be created");
+		}
+		else try {
+			memsql.createUser(database, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 
 		return null;
 	}
