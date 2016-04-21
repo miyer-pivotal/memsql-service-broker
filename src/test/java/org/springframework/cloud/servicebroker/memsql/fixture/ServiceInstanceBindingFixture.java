@@ -7,7 +7,7 @@ import org.cf.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
 
 public class ServiceInstanceBindingFixture {
 	public static ServiceInstanceBinding getServiceInstanceBinding() {
-		Map<String, Object> credentials = Collections.singletonMap("url", (Object) "mongo://example.com");
+		Map<String, String> credentials = Collections.singletonMap("url", "mongo://example.com");
 		return new ServiceInstanceBinding("binding-id", "service-instance-id", credentials, null, "app-guid");
 	}
 }
