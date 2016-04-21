@@ -1,6 +1,6 @@
 package org.springframework.cloud.servicebroker.memsql.fixture;
 
-import org.springframework.cloud.servicebroker.memsql.model.ServiceInstance;
+import org.cf.cloud.servicebroker.memsql.model.ServiceInstance;
 
 public class ServiceInstanceFixture {
 	public static ServiceInstance getServiceInstance() {

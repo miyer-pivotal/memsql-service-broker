@@ -1,18 +1,28 @@
-package org.springframework.cloud.servicebroker.memsql.model;
+package org.cf.cloud.servicebroker.memsql.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceRequest;
 import org.springframework.cloud.servicebroker.model.DeleteServiceInstanceRequest;
 import org.springframework.cloud.servicebroker.model.UpdateServiceInstanceRequest;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * An instance of a ServiceDefinition.
  */
+@Entity
+@Table(name = "service_instance")
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class ServiceInstance {
 
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	@JsonSerialize
 	@JsonProperty("service_instance_id")
 	private String id;
@@ -118,5 +128,33 @@ public class ServiceInstance {
 	public ServiceInstance withDashboardUrl(String dashboardUrl) {
 		this.dashboardUrl = dashboardUrl;
 		return this;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setServiceDefinitionId(String serviceDefinitionId) {
+		this.serviceDefinitionId = serviceDefinitionId;
+	}
+
+	public void setPlanId(String planId) {
+		this.planId = planId;
+	}
+
+	public void setOrganizationGuid(String organizationGuid) {
+		this.organizationGuid = organizationGuid;
+	}
+
+	public void setSpaceGuid(String spaceGuid) {
+		this.spaceGuid = spaceGuid;
+	}
+
+	public void setDashboardUrl(String dashboardUrl) {
+		this.dashboardUrl = dashboardUrl;
 	}
 }

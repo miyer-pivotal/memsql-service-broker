@@ -1,7 +1,8 @@
-package org.springframework.cloud.servicebroker.memsql.repository;
+package org.cf.cloud.servicebroker.memsql.repository;
 
-import org.springframework.cloud.servicebroker.memsql.model.ServiceInstance;
+import org.cf.cloud.servicebroker.memsql.model.ServiceInstance;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Repository for ServiceInstance objects

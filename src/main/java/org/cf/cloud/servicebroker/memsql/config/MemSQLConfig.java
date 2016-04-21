@@ -1,7 +1,7 @@
-package org.springframework.cloud.servicebroker.memsql.config;
+package org.cf.cloud.servicebroker.memsql.config;
 
+import org.cf.cloud.servicebroker.memsql.service.MemSQLClient;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.servicebroker.memsql.service.MemSQLClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.net.UnknownHostException;

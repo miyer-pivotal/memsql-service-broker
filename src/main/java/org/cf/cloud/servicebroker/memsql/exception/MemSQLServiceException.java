@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.memsql.exception;
+package org.cf.cloud.servicebroker.memsql.exception;
 
 import org.springframework.cloud.servicebroker.exception.ServiceBrokerException;
 

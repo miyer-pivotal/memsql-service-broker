@@ -1,6 +1,6 @@
-package org.springframework.cloud.servicebroker.memsql.service;
+package org.cf.cloud.servicebroker.memsql.service;
 
-import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
+import org.cf.cloud.servicebroker.memsql.exception.MemSQLServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

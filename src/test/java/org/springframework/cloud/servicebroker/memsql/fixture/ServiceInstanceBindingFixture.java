@@ -1,9 +1,9 @@
 package org.springframework.cloud.servicebroker.memsql.fixture;
 
-import org.springframework.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
-
 import java.util.Collections;
 import java.util.Map;
+
+import org.cf.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
 
 public class ServiceInstanceBindingFixture {
 	public static ServiceInstanceBinding getServiceInstanceBinding() {

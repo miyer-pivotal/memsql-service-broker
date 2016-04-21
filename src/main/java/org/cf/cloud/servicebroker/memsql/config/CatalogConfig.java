@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.memsql.config;
+package org.cf.cloud.servicebroker.memsql.config;
 
 import java.util.Arrays;
 import java.util.Collections;

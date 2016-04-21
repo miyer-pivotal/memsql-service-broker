@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.memsql.lib;
+package org.cf.cloud.servicebroker.memsql.lib;
 
 import java.util.Random;
 

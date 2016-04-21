@@ -1,17 +1,17 @@
 package org.springframework.cloud.servicebroker.memsql.service;
 
 
+import org.cf.cloud.servicebroker.memsql.exception.MemSQLServiceException;
+import org.cf.cloud.servicebroker.memsql.lib.PasswordGenerator;
+import org.cf.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceRepository;
+import org.cf.cloud.servicebroker.memsql.service.MemSQLAdminService;
+import org.cf.cloud.servicebroker.memsql.service.MemSQLClient;
+import org.cf.cloud.servicebroker.memsql.service.MemSQLServiceInstanceService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.servicebroker.memsql.exception.MemSQLServiceException;
-import org.springframework.cloud.servicebroker.memsql.lib.PasswordGenerator;
-import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceRepository;
-import org.springframework.cloud.servicebroker.memsql.service.MemSQLAdminService;
-import org.springframework.cloud.servicebroker.memsql.service.MemSQLClient;
-import org.springframework.cloud.servicebroker.memsql.service.MemSQLServiceInstanceService;
 import org.springframework.cloud.servicebroker.model.ServiceDefinition;
 
 import java.sql.SQLException;

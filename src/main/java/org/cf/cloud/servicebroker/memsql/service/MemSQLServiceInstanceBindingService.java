@@ -1,18 +1,19 @@
-package org.springframework.cloud.servicebroker.memsql.service;
+package org.cf.cloud.servicebroker.memsql.service;
 
+import java.sql.SQLException;
+
+import org.cf.cloud.servicebroker.memsql.lib.PasswordGenerator;
+import org.cf.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
+import org.cf.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceBindingRepository;
+import org.cf.cloud.servicebroker.memsql.repository.TestBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceBindingDoesNotExistException;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceBindingExistsException;
-import org.springframework.cloud.servicebroker.memsql.lib.PasswordGenerator;
-import org.springframework.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
-import org.springframework.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceBindingRepository;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingRequest;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingResponse;
 import org.springframework.cloud.servicebroker.model.DeleteServiceInstanceBindingRequest;
 import org.springframework.cloud.servicebroker.service.ServiceInstanceBindingService;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 
 /**
 * MemSQL impl to bind services.  Binding a service does the following:
@@ -22,16 +23,21 @@ import java.sql.SQLException;
 @Service
 public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindingService {
 
-	private MemSQLAdminService memsql;
+	@Autowired
+	MemSQLAdminService adminService;
 
-	private MemSQLServiceInstanceBindingRepository bindingRepository;
+	@Autowired
+	MemSQLServiceInstanceBindingRepository bindingRepository;
 
+		
+	/*
 	@Autowired
 	public MemSQLServiceInstanceBindingService(MemSQLAdminService memsql,
 											   MemSQLServiceInstanceBindingRepository bindingRepository) {
 		this.memsql = memsql;
 		this.bindingRepository = bindingRepository;
 	}
+	*/
 	
 	@Override
 	public CreateServiceInstanceBindingResponse createServiceInstanceBinding(CreateServiceInstanceBindingRequest request) {
@@ -56,12 +62,12 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 
 		// check if user already exists in the DB
 
-		boolean userExists = memsql.userExists(username);
+		boolean userExists = adminService.userExists(username);
 		if(userExists){
 			System.out.println("User already exists. A duplicate user cannot be created");
 		}
 		else try {
-			memsql.createUser(database, username, password);
+			adminService.createUser(database, username, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -79,7 +85,7 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			throw new ServiceInstanceBindingDoesNotExistException(bindingId);
 		}
 
-		memsql.deleteUser(binding.getServiceInstanceId(), bindingId);
+		adminService.deleteUser(binding.getServiceInstanceId(), bindingId);
 		bindingRepository.delete(bindingId);
 
 	}

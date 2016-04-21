@@ -1,4 +1,4 @@
-package org.springframework.cloud.servicebroker.memsql.service;
+package org.cf.cloud.servicebroker.memsql.service;
 import java.sql.*;
 
 /**
