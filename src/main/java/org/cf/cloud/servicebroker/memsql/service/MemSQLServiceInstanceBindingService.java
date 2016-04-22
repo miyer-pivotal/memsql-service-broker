@@ -3,7 +3,9 @@ package org.cf.cloud.servicebroker.memsql.service;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.*;
 
+import org.cf.cloud.servicebroker.memsql.exception.MemSQLServiceException;
 import org.cf.cloud.servicebroker.memsql.lib.PasswordGenerator;
 import org.cf.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
 import org.cf.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceBindingRepository;
@@ -46,7 +48,8 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 
 	
 	@Override
-	public CreateServiceInstanceBindingResponse createServiceInstanceBinding(CreateServiceInstanceBindingRequest request) {
+	public CreateServiceInstanceBindingResponse createServiceInstanceBinding(CreateServiceInstanceBindingRequest request)
+	throws MemSQLServiceException{
 
 		String bindingId = request.getBindingId();
 		String serviceInstanceId = request.getServiceInstanceId();
@@ -71,27 +74,23 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 		boolean userExists = adminService.userExists(username);
 		if(userExists){
 			System.out.println("User already exists. A duplicate user cannot be created");
-		}
-		else try {
-			adminService.createUser(database, username, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new MemSQLServiceException("Service already bound with the bindId: " + username);
 		}
 
-		Map<String, Object> credentials =
-				null;
+		Map credentials = new HashMap();
 		try {
-			credentials = Collections.singletonMap("uri", memSQLClient.getConnection());
+			adminService.createUser(database, username, password);
+			credentials.put("uri", memSQLClient.getConnectionString());
+			credentials.put("username", memSQLClient.getUsername());
+			credentials.put("password", memSQLClient.getPassword());
+			binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
+			bindingRepository.save(binding);
+
+			return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new MemSQLServiceException("Unable to bind to service instance" + e.getMessage());
 		}
-
-
-		binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
-		bindingRepository.save(binding);
-
-		return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);
-
 	}
 
 	@Override

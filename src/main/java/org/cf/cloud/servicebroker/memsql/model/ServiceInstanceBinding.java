@@ -33,7 +33,9 @@ public class ServiceInstanceBinding {
 	@MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="binding_creds_attributes", joinColumns=@JoinColumn(name="binding_creds_attrib_id"))
-	protected Map<String,Object> credentials = new HashMap<>();
+	//protected Map<String,String> credentialsMap = new HashMap<>();
+
+	protected Map<String,String> credentials = new HashMap<String,String>();
 
 	public ServiceInstanceBinding(String id,
 								  String serviceInstanceId,
@@ -71,14 +73,43 @@ public class ServiceInstanceBinding {
 	}
 
 	public Map<String, Object> getCredentials() {
-		return credentials;
+		return convertToObjectMap(this.credentials);
 	}
 
-	private void setCredentials(Map<String, Object> credentials) {
+	private static Map<String, Object> convertToObjectMap(Map<String, String> srcMap) {
+		HashMap<String, Object> targetMap = new HashMap<String, Object>();
+		for(String key: srcMap.keySet()) {
+			String val = srcMap.get(key);
+			Object nativeVal = val;
+			if (val == null) {
+				continue;
+			}
+
+			try {
+				nativeVal = Double.valueOf(val);
+				Double double1 = (Double)nativeVal;
+				if (double1.doubleValue() == double1.intValue()) {
+					nativeVal = new Integer(double1.intValue());
+				}
+			} catch(NumberFormatException ipe) {
+				String lowerVal = val.trim().toLowerCase();
+				if (lowerVal.equals("true") || lowerVal.equals("false")) {
+					nativeVal = Boolean.valueOf(val);
+				}
+			}
+			targetMap.put(key, nativeVal);
+		}
+		return targetMap;
+	}
+
+
+	private synchronized void setCredentials(Map credentials) {
 		if (credentials == null) {
-			this.credentials = new HashMap<>();
+			this.credentials = new HashMap<String, String>();
 		} else {
-			this.credentials = credentials;
+			for(Object key: credentials.keySet()) {
+				this.credentials.put("" + key, "" + credentials.get(key));
+			}
 		}
 	}
 
