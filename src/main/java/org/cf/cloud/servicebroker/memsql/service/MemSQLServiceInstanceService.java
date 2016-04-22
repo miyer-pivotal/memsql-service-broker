@@ -4,11 +4,13 @@ import org.cf.cloud.servicebroker.memsql.exception.MemSQLServiceException;
 import org.cf.cloud.servicebroker.memsql.model.ServiceInstance;
 import org.cf.cloud.servicebroker.memsql.repository.MemSQLServiceInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.servicebroker.exception.ServiceBrokerException;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceDoesNotExistException;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceExistsException;
 import org.springframework.cloud.servicebroker.model.*;
 import org.springframework.cloud.servicebroker.service.ServiceInstanceService;
 import org.springframework.stereotype.Service;
+import org.cf.cloud.servicebroker.memsql.database.Db;
 
 /**
  * MemSQL impl to manage service instances.  Creating a service does the following:
@@ -43,10 +45,21 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 
 		if (adminService.databaseExists(instance.getServiceInstanceId())) {
 			// ensure the instance is empty
+
 			adminService.deleteDatabase(instance.getServiceInstanceId());
 		}
 
-		return null;
+		//Db db;
+		String databaseName;
+		databaseName = adminService.createDatabase(instance.getServiceInstanceId());
+
+		if (databaseName == null) {
+			throw new ServiceBrokerException("Failed to create new DB instance: " + instance.getServiceInstanceId());
+		}
+		serviceInstanceRepository.save(instance);
+
+		return new CreateServiceInstanceResponse();
+
 	}
 
 	@Override

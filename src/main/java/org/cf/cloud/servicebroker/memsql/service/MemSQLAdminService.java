@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import org.cf.cloud.servicebroker.memsql.database.Db;
 
 /**
  * Utility class for manipulating a MemSQL database.
@@ -84,16 +85,19 @@ public class MemSQLAdminService {
 		}
 	}
 	
-	public void createDatabase(String databaseName) throws MemSQLServiceException {
+	public String createDatabase(String databaseName) throws MemSQLServiceException {
 		try {
 			Connection connection = client.getConnection();
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE DATABASE " + databaseName);
+			return databaseName;
 		} catch (SQLException e) {
 			try {
 				deleteDatabase(databaseName);
+				return null;
 			} catch (MemSQLServiceException ignore) {}
 			throw handleException(e);
+
 		}
 	}
 
