@@ -52,7 +52,9 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 	throws MemSQLServiceException{
 
 		String bindingId = request.getBindingId();
+		System.out.println("Binding ID "+bindingId);
 		String serviceInstanceId = request.getServiceInstanceId();
+		System.out.println("Service Instance ID = "+serviceInstanceId);
 
 		ServiceInstanceBinding binding = bindingRepository.findOne(bindingId);
 		if (binding != null) {

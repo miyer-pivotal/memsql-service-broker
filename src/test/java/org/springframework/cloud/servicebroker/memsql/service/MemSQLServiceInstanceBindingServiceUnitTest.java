@@ -74,6 +74,7 @@ public class MemSQLServiceInstanceBindingServiceUnitTest {
 
         instance = ServiceInstanceFixture.getServiceInstance();
         instanceBinding = ServiceInstanceBindingFixture.getServiceInstanceBinding();
+        System.out.println(instanceBinding.getAppGuid() + " **app guid");
     }
 /*
     @After
@@ -164,4 +165,5 @@ public class MemSQLServiceInstanceBindingServiceUnitTest {
     }
 
 }
+
 

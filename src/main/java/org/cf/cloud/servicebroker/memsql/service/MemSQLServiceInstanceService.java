@@ -38,6 +38,7 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 	public CreateServiceInstanceResponse createServiceInstance(CreateServiceInstanceRequest request) {
 		ServiceInstance instance = serviceInstanceRepository.findOne(request.getServiceInstanceId());
 		if (instance != null) {
+			System.out.println("null instance");
 			throw new ServiceInstanceExistsException(request.getServiceInstanceId(), request.getServiceDefinitionId());
 		}
 
@@ -45,6 +46,7 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 
 		if (adminService.databaseExists(instance.getServiceInstanceId())) {
 			// ensure the instance is empty
+			System.out.println("database exists");
 
 			adminService.deleteDatabase(instance.getServiceInstanceId());
 		}

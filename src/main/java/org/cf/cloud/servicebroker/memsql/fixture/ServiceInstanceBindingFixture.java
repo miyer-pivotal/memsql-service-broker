@@ -14,6 +14,7 @@ public class ServiceInstanceBindingFixture {
 
         Map<String, Object> credentials = Collections.singletonMap("url", (Object)"jdbc:mysql://52.87.206.146:3306");
 
+        System.out.println("In Service Instance Binding");
         return new ServiceInstanceBinding("binding-id", "service-instance-id", credentials, null, "app-guid");
     }
 }
