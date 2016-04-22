@@ -33,11 +33,11 @@ public class ServiceInstanceBinding {
 	@MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="binding_creds_attributes", joinColumns=@JoinColumn(name="binding_creds_attrib_id"))
-	protected Map<String,String> credentials = new HashMap<String,String>();
+	protected Map<String,Object> credentials = new HashMap<>();
 
 	public ServiceInstanceBinding(String id,
 								  String serviceInstanceId,
-								  Map<String,String> credentials,
+								  Map<String,Object> credentials,
 								  String syslogDrainUrl, String appGuid) {
 		this.id = id;
 		this.serviceInstanceId = serviceInstanceId;
@@ -70,11 +70,11 @@ public class ServiceInstanceBinding {
 		return serviceInstanceId;
 	}
 
-	public Map<String, String> getCredentials() {
+	public Map<String, Object> getCredentials() {
 		return credentials;
 	}
 
-	private void setCredentials(Map<String, String> credentials) {
+	private void setCredentials(Map<String, Object> credentials) {
 		if (credentials == null) {
 			this.credentials = new HashMap<>();
 		} else {

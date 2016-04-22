@@ -1,6 +1,8 @@
 package org.cf.cloud.servicebroker.memsql.service;
 
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Map;
 
 import org.cf.cloud.servicebroker.memsql.lib.PasswordGenerator;
 import org.cf.cloud.servicebroker.memsql.model.ServiceInstanceBinding;
@@ -9,6 +11,7 @@ import org.cf.cloud.servicebroker.memsql.repository.TestBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceBindingDoesNotExistException;
 import org.springframework.cloud.servicebroker.exception.ServiceInstanceBindingExistsException;
+import org.springframework.cloud.servicebroker.model.CreateServiceInstanceAppBindingResponse;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingRequest;
 import org.springframework.cloud.servicebroker.model.CreateServiceInstanceBindingResponse;
 import org.springframework.cloud.servicebroker.model.DeleteServiceInstanceBindingRequest;
@@ -24,20 +27,23 @@ import org.springframework.stereotype.Service;
 public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindingService {
 
 	@Autowired
+	private MemSQLClient memSQLClient = new MemSQLClient("jdbc:mysql://52.87.206.146:3306", "root", "pivotal");
+
+	@Autowired
 	MemSQLAdminService adminService;
 
 	@Autowired
 	MemSQLServiceInstanceBindingRepository bindingRepository;
 
 		
-	/*
+//was commented out
 	@Autowired
 	public MemSQLServiceInstanceBindingService(MemSQLAdminService memsql,
 											   MemSQLServiceInstanceBindingRepository bindingRepository) {
-		this.memsql = memsql;
+		this.adminService = memsql;
 		this.bindingRepository = bindingRepository;
 	}
-	*/
+
 	
 	@Override
 	public CreateServiceInstanceBindingResponse createServiceInstanceBinding(CreateServiceInstanceBindingRequest request) {
@@ -72,8 +78,20 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			e.printStackTrace();
 		}
 
+		Map<String, Object> credentials =
+				null;
+		try {
+			credentials = Collections.singletonMap("uri", memSQLClient.getConnection());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-		return null;
+
+		binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
+		bindingRepository.save(binding);
+
+		return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);
+
 	}
 
 	@Override
@@ -90,7 +108,7 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 
 	}
 
-	protected ServiceInstanceBinding getServiceInstanceBinding(String id) {
+	public ServiceInstanceBinding getServiceInstanceBinding(String id) {
 		return bindingRepository.findOne(id);
 	}
 

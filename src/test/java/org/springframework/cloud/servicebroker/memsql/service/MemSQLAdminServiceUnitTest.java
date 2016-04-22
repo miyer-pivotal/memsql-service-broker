@@ -19,14 +19,14 @@ import java.sql.SQLException;
 
 public class MemSQLAdminServiceUnitTest {
 
-	private static final String DB_NAME = "testDatabase123";
-	private static final String MEMSQL_USER_NAME = "mallikaiyer123";
+	private static final String DB_NAME = "testDatabase";
+	private static final String MEMSQL_USER_NAME = "mallikaiyer";
 	PasswordGenerator pgen = new PasswordGenerator();
 
 	public final String MEMSQL_PASSWORD = pgen.generateRandomString();
 
 	@Autowired
-	private MemSQLClient client = new MemSQLClient("jdbc:mysql://52.87.166.40:3306", "root", "relevant-grizzled-fireboat");
+	private MemSQLClient client = new MemSQLClient("jdbc:mysql://52.87.206.146:3306", "root", "pivotal");
 
 	@Mock
 	private MemSQLAdminService memsql = new MemSQLAdminService(client);
@@ -51,6 +51,7 @@ public class MemSQLAdminServiceUnitTest {
 		memsql.createDatabase(DB_NAME);
 		Assert.assertTrue(memsql.databaseExists(DB_NAME));
 	}
+
 
 
 

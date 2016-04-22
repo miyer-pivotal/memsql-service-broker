@@ -11,6 +11,7 @@ public class MemSQLClient {
     private String password;
 
     private Connection connection = null;
+    private String connectionString;
 
     public MemSQLClient(String url, String username, String password) {
         this.url = url;
@@ -29,5 +30,12 @@ public class MemSQLClient {
             connection = DriverManager.getConnection(url, username, password);
         }
         return connection;
+    }
+    public String getConnectionString() throws SQLException {
+
+        //connection = getConnection();
+        connectionString = "jdbc:mysql://52.87.206.146:3306/test?user=root&password=pivotal";
+        return connectionString;
+
     }
 }
