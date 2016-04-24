@@ -58,6 +58,7 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 
 		ServiceInstanceBinding binding = bindingRepository.findOne(bindingId);
 		if (binding != null) {
+			System.out.print("Nothing found with serviceInstanceId " +serviceInstanceId+ " bindingId "+ bindingId );
 			throw new ServiceInstanceBindingExistsException(serviceInstanceId, bindingId);
 		}
 
@@ -87,6 +88,8 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			credentials.put("password", memSQLClient.getPassword());
 			binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
 			bindingRepository.save(binding);
+
+			System.out.println(" binding saved with bindingId " + bindingId + " serviceInstanceId = "+  serviceInstanceId + " BoundAppId = " + request.getBoundAppGuid());
 
 			return new CreateServiceInstanceAppBindingResponse().withCredentials(credentials);
 		} catch (SQLException e) {

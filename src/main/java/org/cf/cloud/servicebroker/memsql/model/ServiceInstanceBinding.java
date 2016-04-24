@@ -113,6 +113,7 @@ public class ServiceInstanceBinding {
 		}
 	}
 
+
 	public String getSyslogDrainUrl() {
 		return syslogDrainUrl;
 	}

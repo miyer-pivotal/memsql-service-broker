@@ -9,6 +9,7 @@ import org.cf.cloud.servicebroker.memsql.service.MemSQLClient;
 import org.cf.cloud.servicebroker.memsql.service.MemSQLServiceInstanceService;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ import java.sql.SQLException;
 
 public class MemSQLAdminServiceUnitTest {
 
-	private static final String DB_NAME = "testDatabase";
-	private static final String MEMSQL_USER_NAME = "mallikaiyer";
+	private static final String DB_NAME = "ani_test_database";
+	private static final String MEMSQL_USER_NAME = "anirudhajadhav";
 	PasswordGenerator pgen = new PasswordGenerator();
 
 	public final String MEMSQL_PASSWORD = pgen.generateRandomString();
@@ -39,22 +40,23 @@ public class MemSQLAdminServiceUnitTest {
 
 	private MemSQLServiceInstanceService service;
 
+	/*
 	@After
 	public void cleanup() throws SQLException {
 		try {
 			memsql.deleteDatabase(DB_NAME);
 		} catch (MemSQLServiceException ignore) {}
-	}
+	}*/
 
 	@Test
-	public void createDatabaseSuccessfully() {
+	public void createDatabaseServiceInstanceSuccessfully() {
 		memsql.createDatabase(DB_NAME);
 		Assert.assertTrue(memsql.databaseExists(DB_NAME));
 	}
 
 
 
-
+	@Ignore
 	@Test
 	public void deleteDatabaseSuccessfully() {
 		memsql.createDatabase(DB_NAME);
@@ -62,6 +64,7 @@ public class MemSQLAdminServiceUnitTest {
 		memsql.deleteDatabase(DB_NAME);
 		Assert.assertFalse(memsql.databaseExists(DB_NAME));
 	}
+
 
 	@Test
 	public void databaseDoesNotExist() {
@@ -80,6 +83,7 @@ public class MemSQLAdminServiceUnitTest {
 	}
 
 
+	@Ignore
 	@Test
 	public void deleteUserSuccessfully(){
 
