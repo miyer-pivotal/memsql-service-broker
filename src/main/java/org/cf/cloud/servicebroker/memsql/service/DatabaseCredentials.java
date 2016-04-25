@@ -7,7 +7,6 @@ public class DatabaseCredentials {
 	private String password;
 	private String host;
 	private int port;
-	private String uri;
 	
 	public String getDatabaseName() {
 		return databaseName;
@@ -40,11 +39,31 @@ public class DatabaseCredentials {
 		this.port = port;
 	}
 	public String getUri() {
-		return uri;
+		return getConnectionString(this.host, this.port, this.databaseName, this.username, this.password);
+		//return getConnectionString(this.host, this.port, this.databaseName);
 	}
-	public void setUri(String uri) {
-		this.uri = uri;
+	
+	public static String getConnectionString(String host, int port, String databaseName, String user, String password) {
+        return String.format("mysql://%s:%s@%s:%d/%s?reconnect=true", user, password, host, port, databaseName); 
+    }
+	
+	public static String getConnectionString(String host, int port, String databaseName) {
+        return String.format("mysql://%s:%d/%s?reconnect=true", host, port, databaseName); 
+    }
+	
+	public String getJdbcUrl() {
+		return getJdbcConnectionString(this.host, this.port, this.databaseName, this.username, this.password);
+		//return getJdbcConnectionString(this.host, this.port, this.databaseName);
 	}
+	
+	public static String getJdbcConnectionString(String host, int port, String databaseName, String user, String password) {
+        return String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s", host, port, databaseName, user, password); 
+    }
+	
+	public static String getJdbcConnectionString(String host, int port, String databaseName) {
+        return String.format("jdbc:mysql://%s:%d/%s", host, port, databaseName); 
+    }
+	
 	
 	
 	

@@ -85,8 +85,11 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			DatabaseCredentials dbCreds = adminService.createUser(database, username, password);
 					
 			credentials.put("uri", dbCreds.getUri());
+			credentials.put("jdbcUrl", dbCreds.getJdbcUrl());
 			credentials.put("username", dbCreds.getUsername());
 			credentials.put("password", dbCreds.getPassword());
+			credentials.put("hostname", dbCreds.getHost());
+			credentials.put("port", dbCreds.getPort());			
 			
 			binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
 			bindingRepository.save(binding);

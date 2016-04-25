@@ -20,16 +20,16 @@ public class CatalogConfig {
 		return new Catalog(Collections.singletonList(
 				new ServiceDefinition(
 						"memsql-service-broker",
-						"MemSQLDB",
-						"A Really Cool MemSQL service broker implementation",
+						"memsql",
+						"A MemSQL service broker implementation",
 						true,
 						true,
 						Collections.singletonList(
 								new Plan("memsql-plan",
-										"Default MemSQL Plan",
+										"default",
 										"This is a default memsql plan.  All services are created equally.",
 										getPlanMetadata(),true)),
-						Arrays.asList("memsql", "document"),
+						Arrays.asList("memsql", "mysql", "document", "relational"),
 						getServiceDefinitionMetadata(),
 						null,
 						null)));

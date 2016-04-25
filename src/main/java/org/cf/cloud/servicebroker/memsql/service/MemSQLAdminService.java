@@ -127,9 +127,6 @@ public class MemSQLAdminService {
 		dbCredentials.setHost(this.client.getHost());
 		dbCredentials.setPort(this.client.getPort());
 		
-		String dbUri = MemSQLClient.getConnectionString(this.client.getHost(), this.client.getPort(), dbName);
-		dbCredentials.setUri(dbUri);
-		
 		try {
 			Connection connection = client.getConnection();
 			PreparedStatement pstmt = connection.prepareStatement(psql);
