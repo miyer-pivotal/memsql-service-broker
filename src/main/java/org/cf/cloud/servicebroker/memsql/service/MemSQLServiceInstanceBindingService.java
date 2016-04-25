@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindingService {
 
 	@Autowired
-	private MemSQLClient memSQLClient = new MemSQLClient("jdbc:mysql://52.87.206.146:3306", "root", "pivotal");
+	MemSQLClient memSQLClient;
 
 	@Autowired
 	MemSQLAdminService adminService;
@@ -80,12 +80,14 @@ public class MemSQLServiceInstanceBindingService implements ServiceInstanceBindi
 			throw new MemSQLServiceException("Service already bound with the bindId: " + username);
 		}
 
-		Map credentials = new HashMap();
+		Map credentials = new HashMap<String,Object>();
 		try {
-			adminService.createUser(database, username, password);
-			credentials.put("uri", memSQLClient.getConnectionString());
-			credentials.put("username", memSQLClient.getUsername());
-			credentials.put("password", memSQLClient.getPassword());
+			DatabaseCredentials dbCreds = adminService.createUser(database, username, password);
+					
+			credentials.put("uri", dbCreds.getUri());
+			credentials.put("username", dbCreds.getUsername());
+			credentials.put("password", dbCreds.getPassword());
+			
 			binding = new ServiceInstanceBinding(bindingId, serviceInstanceId, credentials, null, request.getBoundAppGuid());
 			bindingRepository.save(binding);
 

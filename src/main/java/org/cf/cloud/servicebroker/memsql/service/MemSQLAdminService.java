@@ -110,7 +110,7 @@ public class MemSQLAdminService {
 	}
 
 
-	public void createUser(String database, String username, String password) throws MemSQLServiceException, SQLException {
+	public DatabaseCredentials createUser(String database, String username, String password) throws MemSQLServiceException, SQLException {
 		String dbName = formatDbName(database);
 		
 		// Commented portion would only work against MemSQL Enterprise edition
@@ -119,6 +119,16 @@ public class MemSQLAdminService {
 		// use this in the interim which would provide an user created with all access to all databases
 		String psql = "GRANT all ON *.* TO ? IDENTIFIED BY ?";
 		String user = formatUserName(username);
+		
+		DatabaseCredentials dbCredentials = new DatabaseCredentials();
+		dbCredentials.setDatabaseName(dbName);
+		dbCredentials.setUsername(user);
+		dbCredentials.setPassword(password);
+		dbCredentials.setHost(this.client.getHost());
+		dbCredentials.setPort(this.client.getPort());
+		
+		String dbUri = MemSQLClient.getConnectionString(this.client.getHost(), this.client.getPort(), dbName);
+		dbCredentials.setUri(dbUri);
 		
 		try {
 			Connection connection = client.getConnection();
@@ -131,6 +141,8 @@ public class MemSQLAdminService {
 			
 			//stmt.executeUpdate("CREATE USER IF NOT EXISTS '"+username+"'@'%' IDENTIFIED BY '"+password+"'");
 			pstmt.executeUpdate();
+			
+			return dbCredentials;
 
 		}catch (SQLException e) {
 			e.printStackTrace();

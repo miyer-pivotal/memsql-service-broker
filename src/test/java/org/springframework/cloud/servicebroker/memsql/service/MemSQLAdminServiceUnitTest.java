@@ -27,7 +27,7 @@ public class MemSQLAdminServiceUnitTest {
 	public final String MEMSQL_PASSWORD = pgen.generateRandomString();
 
 	@Autowired
-	private MemSQLClient client = new MemSQLClient("jdbc:mysql://52.87.206.146:3306", "root", "pivotal");
+	private MemSQLClient client = new MemSQLClient("52.87.206.146", 3306, "test", "root", "pivotal");
 
 	@Mock
 	private MemSQLAdminService memsql = new MemSQLAdminService(client);

@@ -1,4 +1,0 @@
-memsql:
-  host: 52.87.206.146
-  port: 3306
-  url: jdbc:mysql://52.87.206.146:3306

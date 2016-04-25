@@ -27,7 +27,8 @@ public class MemSQLServiceInstanceServiceUnitTest {
     private static final String SVC_PLAN_ID = "servicePlanId";
 
     @Autowired
-    private MemSQLClient client = new MemSQLClient("jdbc:mysql://52.87.206.146:3306", "root", "pivotal");
+    private MemSQLClient client = new MemSQLClient("52.87.206.146", 3306, "test", "root", "pivotal");
+
 
 
     private MemSQLAdminService memsql = new MemSQLAdminService(client);

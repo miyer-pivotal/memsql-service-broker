@@ -6,3 +6,10 @@ applications:
   path: target/cloudfoundry-service-broker-0.0.1-SNAPSHOT.jar
   host: memsql-app
   random-route: false
+  env:
+    MEMSQL_HOST: 52.87.206.146
+    MEMSQL_PORT: 3306
+    MEMSQL_DATABASE: test
+    MEMSQL_USER: root
+    MEMSQL_PASSWORD: pivotal
+
