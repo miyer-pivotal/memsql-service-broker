@@ -26,13 +26,13 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 	//@Autowired
 	MemSQLServiceInstanceRepository serviceInstanceRepository;
 	
-	/*
+
 	@Autowired
 	public MemSQLServiceInstanceService(MemSQLAdminService memsql, MemSQLServiceInstanceRepository repository) {
-		this.memsql = memsql;
-		this.repository = repository;
+		this.adminService = memsql;
+		this.serviceInstanceRepository = repository;
 	}
-	*/
+
 	
 	@Override
 	public CreateServiceInstanceResponse createServiceInstance(CreateServiceInstanceRequest request) {
