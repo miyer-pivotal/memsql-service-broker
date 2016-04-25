@@ -30,7 +30,7 @@ public class MemSQLClient {
     	this.username = username;
     	this.password = password;
         this.url = getConnectionString();
-        System.out.println("URL to host server: " + this.url);
+        System.out.println("JDBC URL to host server: " + this.url);
     }
 
     public String getUrl() { return url; }

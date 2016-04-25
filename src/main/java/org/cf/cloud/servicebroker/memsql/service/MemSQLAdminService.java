@@ -27,6 +27,8 @@ public class MemSQLAdminService {
 	public static final String MEMQSQL_DB_PREFIX = "memsqldb";
 	public static final String MEMQSQL_USER_PREFIX = "memsqluser";
 	
+	private static boolean isRunningEnterprise = true;
+	
 	private Logger logger = LoggerFactory.getLogger(MemSQLAdminService.class);
 	
 	private MemSQLClient client;
@@ -117,7 +119,8 @@ public class MemSQLAdminService {
 		//String psql = "GRANT all ON " + dbName + ".* TO ? IDENTIFIED BY ?";
 		
 		// use this in the interim which would provide an user created with all access to all databases
-		String psql = "GRANT all ON *.* TO ? IDENTIFIED BY ?";
+		String createDBForCommunity = "GRANT all ON *.* TO ? IDENTIFIED BY ?";
+		String createDBForEnterprise = "GRANT all ON " + dbName + ".* TO ? IDENTIFIED BY ?";
 		String user = formatUserName(username);
 		
 		DatabaseCredentials dbCredentials = new DatabaseCredentials();
@@ -127,37 +130,67 @@ public class MemSQLAdminService {
 		dbCredentials.setHost(this.client.getHost());
 		dbCredentials.setPort(this.client.getPort());
 		
+		PreparedStatement pstmt = null;
+		Connection connection = null;
 		try {
-			Connection connection = client.getConnection();
-			PreparedStatement pstmt = connection.prepareStatement(psql);
+			connection = client.getConnection();
+			
+			if (isRunningEnterprise) {
+				pstmt = connection.prepareStatement(createDBForEnterprise);
+				logger.info("Attempting to create DB User in Enterprise Edition mode");
+			} else {
+				pstmt = connection.prepareStatement(createDBForCommunity);
+				logger.info("Running on Community Edition - all valid users would be able to access all databases");
+			}
+			
 			pstmt.setString(1, user);
 			pstmt.setString(2, password);
-			//logger.info("Attempting to create db user using statement: GRANT all ON " + dbName + ".*"
-			logger.info("Attempting to create db user using statement: GRANT all ON *.* " 
-					+ " TO '" + user + "' IDENTIFIED BY '" + password + "'");
 			
-			//stmt.executeUpdate("CREATE USER IF NOT EXISTS '"+username+"'@'%' IDENTIFIED BY '"+password+"'");
-			pstmt.executeUpdate();
+			try {
+				pstmt.executeUpdate();
+			} catch(SQLException sqle) {
+				
+				if (isRunningEnterprise) {
+					isRunningEnterprise = false;
+					
+					cleanup(pstmt);
+					pstmt = connection.prepareStatement(createDBForCommunity);
+					logger.error("WARNING!! Server not running in Enterprise Edition but in Community Edition!!");
+					logger.error("\t All users generated would be able to access all databases in Community Edition!!");
+					
+					pstmt.setString(1, user);
+					pstmt.setString(2, password);
+					
+					pstmt.executeUpdate();
+				}				
+			}
 			
 			return dbCredentials;
-
 		}catch (SQLException e) {
 			e.printStackTrace();
 			try {
 				deleteUser(database, user);
 			} catch (MemSQLServiceException ignore) {}
 			throw handleException(e);
+		} finally {
+			cleanup(pstmt);
 		}
 	}
 
+	public void cleanup(Statement stmt) {
+		try {
+			if (stmt != null)
+				stmt.close();
+		} catch(Exception e) {
+			stmt = null;
+		}
+	}
 
 	public void deleteUser(String database, String username) throws MemSQLServiceException {
 		try {
 			Connection connection = client.getConnection();
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("DROP USER "+ formatUserName(username));
-
-			//System.out.println("***************after "+username+"**************");
 
 		}catch (SQLException e) {
 			throw handleException(e);
