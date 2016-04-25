@@ -52,16 +52,20 @@ public class MemSQLServiceInstanceService implements ServiceInstanceService {
 		}
 
 		//Db db;
-		String databaseName;
-		databaseName = adminService.createDatabase(instance.getServiceInstanceId());
-
-		if (databaseName == null) {
-			throw new ServiceBrokerException("Failed to create new DB instance: " + instance.getServiceInstanceId());
+		try {
+			String databaseName;
+			databaseName = adminService.createDatabase(instance.getServiceInstanceId());
+	
+			if (databaseName == null) {
+				throw new ServiceBrokerException("Failed to create new DB instance: " + instance.getServiceInstanceId());
+			}
+			serviceInstanceRepository.save(instance);
+	
+			return new CreateServiceInstanceResponse();
+		} catch(Exception e) { 
+			e.printStackTrace(); 
+			throw new MemSQLServiceException("Unable to create service instance: " + e.getMessage()); 
 		}
-		serviceInstanceRepository.save(instance);
-
-		return new CreateServiceInstanceResponse();
-
 	}
 
 	@Override
