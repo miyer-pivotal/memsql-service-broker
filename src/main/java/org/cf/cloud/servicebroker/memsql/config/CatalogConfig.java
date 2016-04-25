@@ -21,7 +21,7 @@ public class CatalogConfig {
 				new ServiceDefinition(
 						"memsql-service-broker",
 						"MemSQLDB",
-						"A MemSQL service broker implementation",
+						"A Really Cool MemSQL service broker implementation",
 						true,
 						true,
 						Collections.singletonList(

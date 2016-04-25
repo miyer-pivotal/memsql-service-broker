@@ -37,6 +37,10 @@ public class ServiceInstanceBinding {
 
 	protected Map<String,String> credentials = new HashMap<String,String>();
 
+	public ServiceInstanceBinding(){
+
+	}
+
 	public ServiceInstanceBinding(String id,
 								  String serviceInstanceId,
 								  Map<String,Object> credentials,
