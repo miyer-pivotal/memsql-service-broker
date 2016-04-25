@@ -53,10 +53,12 @@ public class MemSQLServiceInstanceBindingServiceUnitTest {
     @Autowired
     private MemSQLClient client = new MemSQLClient("jdbc:mysql://52.87.206.146:3306", "root", "pivotal");
 
-
+    @Mock
     private MemSQLAdminService memsql = new MemSQLAdminService(client);
 
+    @Mock
     private MemSQLServiceInstanceBindingRepository repository;
+
 
     private MemSQLServiceInstanceBindingService service;
 
@@ -84,13 +86,11 @@ public class MemSQLServiceInstanceBindingServiceUnitTest {
 
 
     @Test
-    public void createServinceInstanceBindingResponseTest() throws Exception {
+    public void createServiceInstanceBindingResponseTest() throws Exception {
 
 
 
-        //when(repository.findOne(any(String.class))).thenReturn(null);
-
-
+        when(repository.findOne(any(String.class))).thenReturn(null);
 
         CreateServiceInstanceAppBindingResponse response =
                 (CreateServiceInstanceAppBindingResponse) service.createServiceInstanceBinding(buildCreateRequest());
