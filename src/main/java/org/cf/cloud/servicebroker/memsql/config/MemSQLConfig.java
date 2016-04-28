@@ -15,20 +15,20 @@ public class MemSQLConfig {
     @Value("${MEMSQL_USERNAME}")
 	private String username;
 	
-	@Value("${memsql.password}")
-    //@Value("${MEMSQL_PASSWORD}")
+	//@Value("${memsql.password}")
+    @Value("${MEMSQL_PASSWORD}")
     private String password;
     
-    @Value("${memsql.host}")
-    //@Value("${MEMSQL_HOST}")
+    //@Value("${memsql.host}")
+    @Value("${MEMSQL_HOST}")
     private String host;
     
-    @Value("${memsql.port}")
-    //@Value("${MEMSQL_PORT}")
+    //@Value("${memsql.port}")
+    @Value("${MEMSQL_PORT}")
     private int port = 3306;
     
-    @Value("${memsql.database}")
-    //@Value("${MEMSQL_DATABASE}")
+    //@Value("${memsql.database}")
+    @Value("${MEMSQL_DATABASE}")
     private String database;
     
 	@Bean

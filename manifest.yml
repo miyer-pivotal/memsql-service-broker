@@ -10,6 +10,6 @@ applications:
     MEMSQL_HOST: 52.87.206.146
     MEMSQL_PORT: 3306
     MEMSQL_DATABASE: test
-    MEMSQL_USER: root
+    MEMSQL_USERNAME: root
     MEMSQL_PASSWORD: pivotal
 
