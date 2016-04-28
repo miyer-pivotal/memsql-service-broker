@@ -26,11 +26,7 @@
 	</properties>
 	
 	<dependencies>	
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-cloudfoundry-service-broker</artifactId>
-			<version>${springCloudServiceBrokerVersion}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -117,6 +113,11 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-cloudfoundry-service-broker</artifactId>
+			<version>1.0.0.RC3</version>
+		</dependency>
 		
 	</dependencies>
 
@@ -136,16 +137,22 @@
             </plugin>
         </plugins>
 	</build>
-	<!-- 
+
 	<repositories>
-		<repository>
+		<!-- <repository>
 			<id>spring-snapshots</id>
 			<name>Spring Snapshots</name>
 			<url>https://repo.spring.io/snapshot/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>  -->
+		<repository>
+			<id>milestones</id>
+			<name>milestones</name>
+			<url>http://repo.spring.io/libs-milestone</url>
 		</repository>
 	</repositories>
-	-->
+
+
 </project>

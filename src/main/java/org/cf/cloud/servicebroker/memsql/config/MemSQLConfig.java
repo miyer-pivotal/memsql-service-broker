@@ -11,8 +11,8 @@ import java.sql.Connection;
 @Configuration
 public class MemSQLConfig {
 
-	@Value("${memsql.user}")
-    //@Value("${MEMSQL_USERNAME}")
+	//@Value("${memsql.user}")
+    @Value("${MEMSQL_USERNAME}")
 	private String username;
 	
 	@Value("${memsql.password}")
