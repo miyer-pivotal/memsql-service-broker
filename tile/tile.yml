@@ -1,5 +1,5 @@
 ---
-name: memsql
+name: memsqlforpcf
 icon_file: resources/memsql.png
 label: MemSQL
 description: The world's fastest in-memory database
